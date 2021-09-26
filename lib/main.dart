@@ -8,10 +8,15 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Use Academy',
+      theme: AppTheme.lightThemeData,
+      darkTheme: AppTheme.darkThemeData,
+      themeMode: ThemeMode.system,
       home: HomePage(),
     );
   }

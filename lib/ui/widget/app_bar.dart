@@ -14,6 +14,7 @@ class MinhaAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
       leading: onPressed != null
           ? BackButton(
               onPressed: onPressed,
@@ -23,6 +24,9 @@ class MinhaAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       title: Text(
         text,
+        style: Theme.of(context).textTheme.headline5?.copyWith(
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
       ),
     );
   }

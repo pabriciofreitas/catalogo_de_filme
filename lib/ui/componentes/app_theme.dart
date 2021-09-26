@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 mixin AppTheme {
+  /*
+Theme.of(context).textTheme.headline4?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+  */
   static const ColorScheme appColor = ColorScheme(
     //fundo
     background: Color(0xFF262626), //meu fundo
@@ -10,7 +15,7 @@ mixin AppTheme {
     //cor de erro
     error: Color(0xFFFF5A5A),
     //em cima do backgroudnd
-    onBackground: Color(0xFF6c6c6c), //letrra por cima do fundo fraca
+    onBackground: Color(0xFF707070), //letrra por cima do fundo fraca
     //por cima do error
     onError: Color(0xFFFFFFFF),
     //por cima da primaria
@@ -61,4 +66,88 @@ mixin AppTheme {
     overline: GoogleFonts.roboto(
         fontSize: 10, fontWeight: _regular, letterSpacing: 1.5),
   );
+
+  static const _lightFillColor = Color(0xFF303030);
+  static const _darkFillColor = Color(0xFFFCFCFC);
+
+  static final Color _lightFocusColor = _lightFillColor.withOpacity(0.12);
+  static final Color _darkFocusColor = _darkFillColor.withOpacity(0.12);
+
+  static ThemeData lightThemeData = themeData(appColor, _lightFocusColor);
+  static ThemeData darkThemeData = themeData(appColor, _darkFocusColor);
+
+  static ThemeData themeData(ColorScheme colorScheme, Color focusColor) {
+    return ThemeData(
+      canvasColor: colorScheme.background,
+      backgroundColor: colorScheme.background,
+      colorScheme: colorScheme,
+      disabledColor: colorScheme.onBackground.withAlpha(40),
+      dividerColor: colorScheme.onBackground.withAlpha(40),
+      elevatedButtonTheme: elevatedButtonThemeData(colorScheme),
+      errorColor: colorScheme.error,
+      focusColor: focusColor,
+      fontFamily: 'Poppins',
+      highlightColor: Colors.transparent,
+      iconTheme: IconThemeData(color: colorScheme.onPrimary),
+      inputDecorationTheme: inputDecorationTheme(colorScheme),
+      primaryColor: colorScheme.primary,
+      primaryColorLight: colorScheme.primaryVariant,
+      scaffoldBackgroundColor: colorScheme.background,
+      textTheme: _textTheme,
+    );
+  }
+
+  static ElevatedButtonThemeData elevatedButtonThemeData(
+      ColorScheme colorScheme) {
+    return ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        elevation: 0.0,
+        onPrimary: colorScheme.onPrimary,
+        onSurface: colorScheme.onSurface,
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+        primary: colorScheme.primary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        textStyle: _textTheme.subtitle1?.copyWith(color: colorScheme.onPrimary),
+      ),
+    );
+  }
+
+  static InputDecorationTheme inputDecorationTheme(ColorScheme colorScheme) {
+    return InputDecorationTheme(
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(
+          color: colorScheme.onBackground.withAlpha(80),
+        ),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(
+          color: colorScheme.error,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(
+          color: colorScheme.onBackground.withAlpha(200),
+        ),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(
+          color: colorScheme.onBackground.withAlpha(40),
+        ),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(
+          color: colorScheme.error,
+        ),
+      ),
+      labelStyle: _textTheme.bodyText1,
+      hintStyle: _textTheme.subtitle1?.copyWith(
+        color: colorScheme.onBackground.withAlpha(40),
+      ),
+    );
+  }
 }
