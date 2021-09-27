@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class RowGenero extends StatelessWidget {
   String text;
-  Function onPressed;
+  Function() onPressed;
   RowGenero({
     Key? key,
     required this.text,
@@ -19,7 +19,7 @@ class RowGenero extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onPrimary,
                 )),
         TextButton(
-          onPressed: onPressed(),
+          onPressed: onPressed,
           child: Text(
             "Ver mais",
             style: Theme.of(context).textTheme.button?.copyWith(

@@ -16,7 +16,8 @@ class MinhaAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       leading: onPressed != null
-          ? BackButton(
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back_ios_sharp),
               onPressed: onPressed,
             )
           : null,

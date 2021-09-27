@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../pages/page.dart';
+
 class ListFilmeHorizontal extends StatelessWidget {
   const ListFilmeHorizontal({
     Key? key,
@@ -19,31 +21,10 @@ class ListFilmeHorizontal extends StatelessWidget {
                 ),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      image: const DecorationImage(
-                          image: AssetImage(
-                        "lib/assets/images/image.jpg",
-                      )),
-                    ),
-                    height: size.height * 0.37,
-                    width: size.width * 0.4,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: size.height * 0.01),
-                    child: Text(
-                      "Titulo do filme",
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                    ),
-                  )
-                ],
+              return Filme(
+                size: size,
+                image: "lib/assets/images/image.jpg",
+                nome: "Titulo do filme",
               );
             },
             itemCount: 10));
