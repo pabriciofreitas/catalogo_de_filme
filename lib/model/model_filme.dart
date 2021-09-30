@@ -22,9 +22,9 @@ class ModelFilme {
   //retornado um Modelo do time filme apartir de map
   factory ModelFilme.fromMap(Map<String, dynamic> map) {
     return ModelFilme(
-      idFilme: map['id'],
-      nomeFilme: map['title'],
-      imageFilme: map['image'],
+      idFilme: map['id'].toString(),
+      nomeFilme: map['title'].toString(),
+      imageFilme: map['image'].toString(),
     );
   }
   //apartir de json transformando em map

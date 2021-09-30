@@ -1,12 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class FilmeDestaque extends StatelessWidget {
   Function()? onTap;
   Widget? text;
+  String url;
   FilmeDestaque({
     Key? key,
     this.onTap,
     this.text,
+    required this.url,
     required this.size,
   }) : super(key: key);
 
@@ -20,21 +23,29 @@ class FilmeDestaque extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
         child: InkWell(
           onTap: onTap,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
-              image: DecorationImage(
-                  image: AssetImage(
-                "lib/assets/images/image.jpg",
-              )),
-            ),
+          child: CachedNetworkImage(
+            //filterQuality: FilterQuality.low,
             height: size.height * 0.6,
             width: size.width * 0.7,
+            fit: BoxFit.cover,
+            imageUrl: url,
+            imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                  // colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn),
+                ),
+              ),
+            ),
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
       ),
       Text(
-        "Tema do filme",
+        "titulo do fime",
         style: Theme.of(context)
             .textTheme
             .bodyText1

@@ -20,7 +20,11 @@ class DetalhePage extends StatelessWidget {
           //filme detaque
           Padding(
             padding: EdgeInsets.symmetric(vertical: size.height * 0.04),
-            child: FilmeDestaque(size: size),
+            child: FilmeDestaque(
+              size: size,
+              url:
+                  "https://imdb-api.com/images/original/MV5BNTE4YWE4NmEtYWY0ZS00ZDU4LTkxY2EtNTk2MDY1MDk5MTgyXkEyXkFqcGdeQXVyOTkwMTQ5MTI@._V1_Ratio0.6800_AL_.jpg",
+            ),
           ),
           Container(
               width: double.infinity,
@@ -84,24 +88,24 @@ class DetalhePage extends StatelessWidget {
                 ),
                 child: SizedBox(
                   width: size.width * 0.9,
-                  height: size.width * 0.34,
-                  //color: Colors.white,
+                  height: size.width * 0.38,
+                  // color: Colors.white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Elenco(
                         size: size,
-                        image: "lib/assets/images/ator1.jpg",
+                        image: "lib/ui/assets/images/ator1.jpg",
                         nome: "Leonardo DiCaprio",
                       ),
                       Elenco(
                         size: size,
-                        image: "lib/assets/images/ator2.jpg",
+                        image: "lib/ui/assets/images/ator2.jpg",
                         nome: "Joseph Gordon",
                       ),
                       Elenco(
                         size: size,
-                        image: "lib/assets/images/ator3.jpg",
+                        image: "lib/ui/assets/images/ator3.jpg",
                         nome: "Christopher Nolan",
                       ),
                     ],

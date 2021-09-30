@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:http/http.dart';
 
 import '../page.dart';
 import '../ver_mais/ver_mais.dart';
@@ -12,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  HttpAdapter controller = HttpAdapter(client: Client());
   /*
   late ScrollController _scrollController;
 
@@ -20,6 +22,26 @@ class _HomePageState extends State<HomePage> {
     _scrollController = ScrollController();
     super.initState();
   }*/
+  // ModelFilme
+  Future carregaDados() async {
+    final response = await controller.request(
+        url: "https://imdb-api.com/br/API/Keyword/k_wgr1o4iu/dramas",
+        method: "get");
+    print("response1 $response");
+    // response[""]
+    //List<ModelFilme> people = response .map((f) => ModelFilme.fromJson(f as Map<String, dynamic>)) .toList();
+    //var listaDrama = ModelFilme.fromMap(Map<String, dynamic>.from(response));
+
+    var listaDrama = response['items'];
+    debugPrint("$listaDrama[1]");
+    //  return listaDrama;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    carregaDados();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +56,8 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.only(top: size.height * 0.04),
             sliver: SliverToBoxAdapter(
               child: FilmeDestaque(
+                url:
+                    "https://imdb-api.com/images/original/MV5BNGU0ZDRlMTgtYmU0Zi00NGI4LTllZTItMGUyMDJlNGM2OWY5XkEyXkFqcGdeQXVyMjUyNDQ0NDE@._V1_Ratio1.7600_AL_.jpg",
                 text: Text(
                   "Lançamento",
                   style: Theme.of(context).textTheme.headline4?.copyWith(
@@ -57,8 +81,12 @@ class _HomePageState extends State<HomePage> {
               child: RowGenero(
                 text: "Para Você",
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => VerMaisPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VerMaisPage(
+                                textTema: "Para voce",
+                              )));
                 },
               ),
             ),
@@ -78,8 +106,12 @@ class _HomePageState extends State<HomePage> {
               child: RowGenero(
                 text: "Ação",
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => VerMaisPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VerMaisPage(
+                                textTema: "Ação",
+                              )));
                 },
               ),
             ),
@@ -99,8 +131,12 @@ class _HomePageState extends State<HomePage> {
               child: RowGenero(
                 text: "Drama",
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => VerMaisPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VerMaisPage(
+                                textTema: "Drama",
+                              )));
                 },
               ),
             ),
