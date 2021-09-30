@@ -10,6 +10,7 @@ class ModelFilme {
     required this.nomeFilme,
     required this.imageFilme,
   });
+
   //transformando um modelfilme em map
   Map<String, dynamic> toMap() {
     return {
@@ -22,9 +23,9 @@ class ModelFilme {
   //retornado um Modelo do time filme apartir de map
   factory ModelFilme.fromMap(Map<String, dynamic> map) {
     return ModelFilme(
-      idFilme: map['id'].toString(),
-      nomeFilme: map['title'].toString(),
-      imageFilme: map['image'].toString(),
+      idFilme: (map['id'] ?? "").toString(),
+      nomeFilme: (map['title'] ?? "").toString(),
+      imageFilme: (map['image'] ?? "").toString(),
     );
   }
   //apartir de json transformando em map
@@ -34,26 +35,7 @@ class ModelFilme {
   String toJson() => json.encode(toMap());
 }
 
-class Aluno {
-  String alunoId;
-  String alunoNome;
-  int alunoMedia;
-
-  Aluno(
-      {required this.alunoId,
-      required this.alunoNome,
-      required this.alunoMedia});
-
-  factory Aluno.fromMap(Map<String, dynamic> map) {
-    return Aluno(
-      alunoId: map['id'],
-      alunoNome: map['nome'],
-      alunoMedia: map['media'],
-    );
-  }
-
-  factory Aluno.fromJson(String source) => Aluno.fromMap(json.decode(source));
-}
+  
 
 //from = a partir de
-//do = para
+//to = para

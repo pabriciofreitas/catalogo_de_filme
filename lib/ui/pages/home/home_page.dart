@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart';
 
+import '../../../model/model_filme.dart';
 import '../page.dart';
 import '../ver_mais/ver_mais.dart';
 
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HttpAdapter controller = HttpAdapter(client: Client());
+  List<ModelFilme> listaDrama10 = [];
   /*
   late ScrollController _scrollController;
 
@@ -25,15 +27,31 @@ class _HomePageState extends State<HomePage> {
   // ModelFilme
   Future carregaDados() async {
     final response = await controller.request(
-        url: "https://imdb-api.com/br/API/Keyword/k_wgr1o4iu/dramas",
+        url: "https://imdb-api.com/br/API/Keyword/k_c7j572lj/ghost-story",
         method: "get");
-    print("response1 $response");
+    //print("response1 $response");
     // response[""]
     //List<ModelFilme> people = response .map((f) => ModelFilme.fromJson(f as Map<String, dynamic>)) .toList();
     //var listaDrama = ModelFilme.fromMap(Map<String, dynamic>.from(response));
-
+    //Lista de maps;;
     var listaDrama = response['items'];
-    debugPrint("$listaDrama[1]");
+    print("$listaDrama");
+    //  List<ModelFilme> listaDrama1 = listaDrama.map((f) => ModelFilme.fromMap(f));
+    //var a1 = ModelFilme.fromMap(listaDrama[1]);
+    //  print(listaDrama1[1].idFilme);
+    List<ModelFilme> ListaDrama1 = [];
+    int contador = 0;
+    for (Map<String, dynamic> map in listaDrama) {
+      if (contador < 10) {
+        ListaDrama1.add(ModelFilme.fromMap(map));
+        contador++;
+      } else {}
+    }
+    print(ListaDrama1[0].idFilme);
+    setState(() {
+      listaDrama10 = ListaDrama1;
+    });
+    // debugPrint(listaDrama1[1].idFilme);
     //  return listaDrama;
   }
 
@@ -97,7 +115,10 @@ class _HomePageState extends State<HomePage> {
               top: size.height * 0.001,
             ),
             sliver: SliverToBoxAdapter(
-              child: ListFilmeHorizontal(size: size),
+              child: ListaFilmeHorizontal(
+                size: size,
+                listModelFilme: listaDrama10,
+              ),
             ),
           ),
           SliverPadding(
@@ -122,7 +143,10 @@ class _HomePageState extends State<HomePage> {
               top: size.height * 0.001,
             ),
             sliver: SliverToBoxAdapter(
-              child: ListFilmeHorizontal(size: size),
+              child: ListaFilmeHorizontal(
+                size: size,
+                listModelFilme: listaDrama10,
+              ),
             ),
           ),
           SliverPadding(
@@ -147,7 +171,10 @@ class _HomePageState extends State<HomePage> {
               top: size.height * 0.001,
             ),
             sliver: SliverToBoxAdapter(
-              child: ListFilmeHorizontal(size: size),
+              child: ListaFilmeHorizontal(
+                size: size,
+                listModelFilme: listaDrama10,
+              ),
             ),
           ),
         ],
