@@ -17,43 +17,47 @@ class FilmeHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        InkWell(
-          onTap: onTap,
-          child: CachedNetworkImage(
-            //filterQuality: FilterQuality.low,
-            height: size.height * 0.37,
-            width: size.width * 0.4,
-            fit: BoxFit.cover,
-            imageUrl: image,
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
+    return SizedBox(
+      width: size.width * 0.4,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onTap: onTap,
+            child: CachedNetworkImage(
+              //filterQuality: FilterQuality.low,
+              height: size.height * 0.37,
+              width: size.width * 0.4,
+              fit: BoxFit.cover,
+              imageUrl: image,
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
 
-                  // colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn),
+                    // colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn),
+                  ),
                 ),
               ),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: size.height * 0.01),
-          child: Text(
-            nome,
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-          ),
-        )
-      ],
+          Padding(
+            padding: EdgeInsets.only(top: size.height * 0.01),
+            child: Text(
+              nome,
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

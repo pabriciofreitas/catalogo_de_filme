@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 
 class FilmeDestaque extends StatelessWidget {
   Function()? onTap;
+  String titulo;
+  String nomeAtor;
   Widget? text;
   String url;
   FilmeDestaque({
     Key? key,
     this.onTap,
+    required this.titulo,
+    required this.nomeAtor,
     this.text,
     required this.url,
     required this.size,
@@ -45,7 +49,7 @@ class FilmeDestaque extends StatelessWidget {
         ),
       ),
       Text(
-        "titulo do fime",
+        titulo,
         style: Theme.of(context)
             .textTheme
             .bodyText1
@@ -55,7 +59,7 @@ class FilmeDestaque extends StatelessWidget {
         padding: EdgeInsets.only(
             top: size.height * 0.02, bottom: size.height * 0.01),
         child: Text(
-          "Ator 1 - Ator 2 - Ator 3",
+          nomeAtor,
           style: Theme.of(context)
               .textTheme
               .bodyText2

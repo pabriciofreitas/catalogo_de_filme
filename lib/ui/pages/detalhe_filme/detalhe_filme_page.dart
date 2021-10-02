@@ -1,9 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
+import '../../../model/model_filme_detalhe.dart';
 import '../page.dart';
 
-class DetalhePage extends StatelessWidget {
-  const DetalhePage({Key? key}) : super(key: key);
+class DetalhePage extends StatefulWidget {
+  String id;
+  DetalhePage({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
+
+  @override
+  State<DetalhePage> createState() => _DetalhePageState();
+}
+
+class _DetalhePageState extends State<DetalhePage> {
+  HttpAdapter controller = HttpAdapter(client: Client());
+  late ModelFilmeDetalhe filmeDetalhe;
+
+  carregaDados() async {
+    print(widget.id);
+    final response = await controller.request(
+        //problema que id ta dando erro
+        url: "https://imdb-api.com/pt-BR/API/Title/k_c7j572lj/${widget.id}",
+        method: "get");
+
+    setState(() {
+      filmeDetalhe = ModelFilmeDetalhe.fromMap(response);
+    });
+
+    // print(filmeDetalhe.discricao);
+    //image
+    //title
+    //plot = discrição do filme
+    //actorList - {image, name}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    carregaDados();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +59,11 @@ class DetalhePage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: size.height * 0.04),
             child: FilmeDestaque(
+              titulo: filmeDetalhe.nomeFilme,
+              nomeAtor:
+                  "${filmeDetalhe.listaAtor[0]["name"]} - ${filmeDetalhe.listaAtor[1]["name"]} - ${filmeDetalhe.listaAtor[2]["name"]}",
               size: size,
-              url:
-                  "https://imdb-api.com/images/original/MV5BNTE4YWE4NmEtYWY0ZS00ZDU4LTkxY2EtNTk2MDY1MDk5MTgyXkEyXkFqcGdeQXVyOTkwMTQ5MTI@._V1_Ratio0.6800_AL_.jpg",
+              url: filmeDetalhe.imageFilme,
             ),
           ),
           Container(
@@ -48,7 +88,7 @@ class DetalhePage extends StatelessWidget {
                   width: 400,
                   height: 200,
                   child: Text(
-                    "Dom Cobb é um ladrão com a rara habilidade de roubar segredos do inconsciente, obtidos durante o estado de sono. Impedido de retornar para sua família, ele recebe a oportunidade de se redimir ao realizar uma tarefa aparentemente impossível: plantar uma ideia na mente do herdeiro de um império. Para realizar o crime perfeito, ele conta com a ajuda do parceiro Arthur, o discreto Eames e a arquiteta de sonhos Ariadne. Juntos, eles correm para que o inimigo não antecipe seus passos.",
+                    filmeDetalhe.discricao,
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(
                           color: Theme.of(context).colorScheme.onPrimary,
                           height: 1.2,
@@ -95,18 +135,18 @@ class DetalhePage extends StatelessWidget {
                     children: [
                       Elenco(
                         size: size,
-                        image: "lib/ui/assets/images/ator1.jpg",
-                        nome: "Leonardo DiCaprio",
+                        image: filmeDetalhe.listaAtor[0]["image"],
+                        nome: filmeDetalhe.listaAtor[0]["name"],
                       ),
                       Elenco(
                         size: size,
-                        image: "lib/ui/assets/images/ator2.jpg",
-                        nome: "Joseph Gordon",
+                        image: filmeDetalhe.listaAtor[1]["image"],
+                        nome: filmeDetalhe.listaAtor[1]["name"],
                       ),
                       Elenco(
                         size: size,
-                        image: "lib/ui/assets/images/ator3.jpg",
-                        nome: "Christopher Nolan",
+                        image: filmeDetalhe.listaAtor[2]["image"],
+                        nome: filmeDetalhe.listaAtor[2]["name"],
                       ),
                     ],
                   ),

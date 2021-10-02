@@ -19,27 +19,8 @@ class Elenco extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           CircleAvatar(
             maxRadius: size.height * 0.08,
-            backgroundImage: AssetImage(image),
+            backgroundImage: NetworkImage(image),
           ),
-          /*child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        CircleAvatar(
-          maxRadius: size.height * 0.08,
-          child: CachedNetworkImage(
-            //filterQuality: FilterQuality.low,
-            fit: BoxFit.cover,
-            imageUrl: image,
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  // colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn),
-                ),
-              ),
-            ),
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-          ),*/
-
           Padding(
             padding: EdgeInsets.only(top: size.height * 0.02),
             child: Text(

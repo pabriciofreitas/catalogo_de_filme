@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:http/http.dart';
 
 import '../../../model/model_filme.dart';
+import '../../../shared/api_url.dart';
 import '../page.dart';
 import '../ver_mais/ver_mais.dart';
 
@@ -15,7 +16,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HttpAdapter controller = HttpAdapter(client: Client());
-  List<ModelFilme> listaDrama10 = [];
+  List<ModelFilme> listaLacamento = [];
+  List<ModelFilme> listaParaVc = [];
+  List<ModelFilme> listaTerror = [];
+  List<ModelFilme> listaAnime = [];
+
   /*
   late ScrollController _scrollController;
 
@@ -25,34 +30,49 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }*/
   // ModelFilme
-  Future carregaDados() async {
-    final response = await controller.request(
-        url: "https://imdb-api.com/br/API/Keyword/k_c7j572lj/ghost-story",
-        method: "get");
-    //print("response1 $response");
-    // response[""]
-    //List<ModelFilme> people = response .map((f) => ModelFilme.fromJson(f as Map<String, dynamic>)) .toList();
-    //var listaDrama = ModelFilme.fromMap(Map<String, dynamic>.from(response));
-    //Lista de maps;;
-    var listaDrama = response['items'];
-    print("$listaDrama");
-    //  List<ModelFilme> listaDrama1 = listaDrama.map((f) => ModelFilme.fromMap(f));
-    //var a1 = ModelFilme.fromMap(listaDrama[1]);
-    //  print(listaDrama1[1].idFilme);
-    List<ModelFilme> ListaDrama1 = [];
+  List<ModelFilme> retornaFilme(dynamic response) {
+    response = response['items'];
+    List<ModelFilme> temp = [];
     int contador = 0;
-    for (Map<String, dynamic> map in listaDrama) {
+    for (Map<String, dynamic> map in response) {
       if (contador < 10) {
-        ListaDrama1.add(ModelFilme.fromMap(map));
+        temp.add(ModelFilme.fromMap(map));
         contador++;
       } else {}
     }
-    print(ListaDrama1[0].idFilme);
+    return temp;
+  }
+
+  Future carregaDados() async {
+    //epic
+    final responseTerror = await controller.request(
+        url: UrlApi.getApiPathByCategory("ghost-story"), method: "get");
+    final responseParaVc = await controller.request(
+        url: UrlApi.getApiPathByCategory("epic"), method: "get");
+    final responseAnime = await controller.request(
+        url: UrlApi.getApiPathByCategory("anime"), method: "get");
+    final responseLacamento =
+        await controller.request(url: UrlApi.filmeLancamento, method: "get");
+    //print("response1 $response");
+    // response[""]
+    //List<ModelFilme> people = response .map((f) => ModelFilme.fromJson(f as Map<String, dynamic>)) .toList();
+    //var listaAnime = ModelFilme.fromMap(Map<String, dynamic>.from(response));
+    //Lista de maps;;
+
+    //print("$listaAnime");
+    //  List<ModelFilme> listaAnime1 = listaAnime.map((f) => ModelFilme.fromMap(f));
+    //var a1 = ModelFilme.fromMap(listaAnime[1]);
+    //  print(listaAnime1[1].idFilme);
+
+    //print(ListaAnime1[0].idFilme);
     setState(() {
-      listaDrama10 = ListaDrama1;
+      listaLacamento = retornaFilme(responseLacamento);
+      listaParaVc = retornaFilme(responseParaVc);
+      listaTerror = retornaFilme(responseTerror);
+      listaAnime = retornaFilme(responseAnime);
     });
-    // debugPrint(listaDrama1[1].idFilme);
-    //  return listaDrama;
+    // debugPrint(listaAnime1[1].idFilme);
+    //  return listaAnime;
   }
 
   @override
@@ -74,8 +94,9 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.only(top: size.height * 0.04),
             sliver: SliverToBoxAdapter(
               child: FilmeDestaque(
-                url:
-                    "https://imdb-api.com/images/original/MV5BNGU0ZDRlMTgtYmU0Zi00NGI4LTllZTItMGUyMDJlNGM2OWY5XkEyXkFqcGdeQXVyMjUyNDQ0NDE@._V1_Ratio1.7600_AL_.jpg",
+                titulo: listaLacamento[2].nomeFilme,
+                nomeAtor: "Thanet Natisri - Jim Warny - Mikko Paasi",
+                url: listaLacamento[2].imageFilme,
                 text: Text(
                   "Lançamento",
                   style: Theme.of(context).textTheme.headline4?.copyWith(
@@ -84,8 +105,12 @@ class _HomePageState extends State<HomePage> {
                 ),
                 size: size,
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => DetalhePage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DetalhePage(
+                                id: listaLacamento[2].idFilme,
+                              )));
                 },
               ),
             ),
@@ -103,6 +128,7 @@ class _HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => VerMaisPage(
+                                listFilme: listaParaVc,
                                 textTema: "Para voce",
                               )));
                 },
@@ -117,7 +143,7 @@ class _HomePageState extends State<HomePage> {
             sliver: SliverToBoxAdapter(
               child: ListaFilmeHorizontal(
                 size: size,
-                listModelFilme: listaDrama10,
+                listModelFilme: listaParaVc,
               ),
             ),
           ),
@@ -125,13 +151,14 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.only(left: size.width * 0.04, right: 4),
             sliver: SliverToBoxAdapter(
               child: RowGenero(
-                text: "Ação",
+                text: "Anime",
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => VerMaisPage(
-                                textTema: "Ação",
+                                listFilme: listaAnime,
+                                textTema: "Anime",
                               )));
                 },
               ),
@@ -145,7 +172,7 @@ class _HomePageState extends State<HomePage> {
             sliver: SliverToBoxAdapter(
               child: ListaFilmeHorizontal(
                 size: size,
-                listModelFilme: listaDrama10,
+                listModelFilme: listaAnime,
               ),
             ),
           ),
@@ -153,13 +180,14 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.only(left: size.width * 0.04, right: 4),
             sliver: SliverToBoxAdapter(
               child: RowGenero(
-                text: "Drama",
+                text: "Terror",
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => VerMaisPage(
-                                textTema: "Drama",
+                                listFilme: listaTerror,
+                                textTema: "Terror",
                               )));
                 },
               ),
@@ -173,7 +201,7 @@ class _HomePageState extends State<HomePage> {
             sliver: SliverToBoxAdapter(
               child: ListaFilmeHorizontal(
                 size: size,
-                listModelFilme: listaDrama10,
+                listModelFilme: listaTerror,
               ),
             ),
           ),

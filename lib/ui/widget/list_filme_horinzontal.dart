@@ -61,10 +61,14 @@ class ListaFilmeHorizontal extends StatelessWidget {
                     )
                   : FilmeHome(
                       onTap: () {
+                        String id = listModelFilme[index].idFilme;
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DetalhePage()));
+                                builder: (context) => DetalhePage(
+                                      id: id,
+                                    )));
                       },
                       size: size,
                       image: listModelFilme[index].imageFilme,

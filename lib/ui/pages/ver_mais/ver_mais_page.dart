@@ -7,9 +7,11 @@ import '../page.dart';
 
 class VerMaisPage extends StatefulWidget {
   String textTema;
+  List<ModelFilme> listFilme;
   VerMaisPage({
     Key? key,
     required this.textTema,
+    required this.listFilme,
   }) : super(key: key);
 
   @override
@@ -17,9 +19,9 @@ class VerMaisPage extends StatefulWidget {
 }
 
 class _VerMaisPageState extends State<VerMaisPage> {
-  late List<ModelFilme> bi;
+  late List<ModelFilme> bi = widget.listFilme;
 
-  List<Map<String, dynamic>> a = Dados.teste;
+  List<Map<String, dynamic>> dadosTeste = Dados.teste;
 
   List<ModelFilme> _carregaFilme(response) {
     List<ModelFilme> r = [];
@@ -31,20 +33,10 @@ class _VerMaisPageState extends State<VerMaisPage> {
     return r;
   }
 
-  List<String> listUrl(List<ModelFilme> a) {
-    List<String> listUrl = [];
-    for (ModelFilme url in a) {
-      listUrl.add(url.imageFilme);
-    }
-    return listUrl;
-  }
-
-  bool isLoading = true;
-
   @override
   void initState() {
     super.initState();
-    bi = _carregaFilme(a);
+    // bi = _carregaFilme(dadosTeste);
   }
 
   @override
@@ -89,7 +81,9 @@ class _VerMaisPageState extends State<VerMaisPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => DetalhePage()));
+                                    builder: (context) => DetalhePage(
+                                          id: bi[index].idFilme,
+                                        )));
                           },
                           image: bi[index].imageFilme,
                           nome: bi[index].nomeFilme,
